@@ -1,0 +1,11 @@
+// Add "custom/archdrop" to modules-right (or wherever) in ~/.config/waybar/config.jsonc,
+// then paste the block below alongside your other modules.
+"custom/archdrop": {
+  "exec": "archdrop waybar",
+  "return-type": "json",
+  "format": "{}",
+  "tooltip": true,
+  "on-click": "archdrop toggle",               // start or stop receiving
+  "on-click-right": "archdrop-menu",           // accept, decline, send the clipboard
+  "on-click-middle": "archdrop send --clipboard --notify"  // to the only device in range
+}

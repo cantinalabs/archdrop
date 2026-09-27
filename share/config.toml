@@ -1,0 +1,25 @@
+# ~/.config/archdrop/config.toml -- every key is optional.
+
+# What other devices call this computer. Default: the hostname.
+name = ""
+
+# Where received files go. Default: your XDG Downloads folder.
+download_dir = ""
+
+# The TCP port Quick Share listens on. 0 picks a free one each time; set a fixed
+# port (say 47893) if you run a firewall, and allow it together with mDNS (5353/udp).
+port = 0
+
+# Become visible as soon as the service starts (at login), instead of only when
+# you switch it on.
+receive_on_start = true
+
+# How long "on" lasts when you do not say. 0 means until switched off.
+default_minutes = 0
+
+# Accept incoming files without asking. Anyone on the network who can see you
+# can then put files in your download folder.
+auto_accept = false
+
+# Desktop notifications for offers, arrivals and failures.
+notify = true

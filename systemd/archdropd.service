@@ -1,0 +1,29 @@
+[Unit]
+Description=archdrop: Android Quick Share
+Documentation=file:///usr/share/doc/archdrop/README.md
+PartOf=graphical-session.target
+After=graphical-session.target network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/archdropd
+Restart=on-failure
+RestartSec=3
+
+# It reads and writes only what the user chooses to send and receive, and talks
+# to the network, the session bus and its own socket.
+NoNewPrivileges=yes
+ProtectSystem=full
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictNamespaces=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+# ProtectSystem=full keeps /usr and /etc read-only, and ProtectHome is left off on
+# purpose: received files go to a folder of the user's choosing, and
+# notify-send and wl-copy run from here.
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Send with Archdrop
+Comment=Send files to a nearby phone or Mac
+Exec=archdrop send --notify %F
+Icon=/usr/share/pixmaps/archdrop.svg
+NoDisplay=true
+MimeType=application/octet-stream;image/*;video/*;audio/*;text/*;application/pdf;application/zip;

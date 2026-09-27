@@ -1,0 +1,11 @@
+/* Paste into ~/.config/waybar/style.css. Classes: off, visible, pending, transferring, offline. */
+#custom-archdrop { padding: 0 8px; }
+#custom-archdrop.off          { opacity: 0.5; }
+#custom-archdrop.visible      { color: #32d74b; }
+#custom-archdrop.pending      { color: #ffd60a; }
+#custom-archdrop.transferring { color: #64d2ff; }
+#custom-archdrop.offline      { color: #ff453a; opacity: 0.6; }
+#custom-archdrop.pending {
+  animation: archdrop-blink 1.2s ease-in-out infinite;
+}
+@keyframes archdrop-blink { 50% { opacity: 0.45; } }

@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# A small action menu for the Waybar module, in whichever launcher is installed.
+# Usage: archdrop-menu        (bind it to the module's on-click-right)
+set -u
+
+pick() {
+  local prompt=$1
+  if   command -v fuzzel  >/dev/null; then fuzzel --dmenu --prompt "$prompt "
+  elif command -v wofi    >/dev/null; then wofi --dmenu --prompt "$prompt"
+  elif command -v rofi    >/dev/null; then rofi -dmenu -p "$prompt"
+  elif command -v tofi    >/dev/null; then tofi --prompt-text "$prompt "
+  elif command -v walker  >/dev/null; then walker --dmenu -p "$prompt"
+  elif command -v bemenu  >/dev/null; then bemenu -p "$prompt"
+  else notify-send "archdrop" "Install fuzzel, wofi, rofi, tofi, walker or bemenu for this menu." ; return 1
+  fi
+}
+
+state=$(archdrop status --json) || { notify-send "archdrop" "The service is not running."; exit 1; }
+receiving=$(jq -r '.receiving' <<<"$state")
+
+items=()
+if [[ $receiving == true ]]; then items+=("Stop receiving"); else items+=("Start receiving"); fi
+while IFS=$'\t' read -r id peer files; do
+  [[ -n $id ]] && items+=("Accept from $peer ($files)::$id" "Decline from $peer::$id")
+done < <(jq -r '.transfers[] | select(.state=="pending") | [.id, .peer, (.files|join(", "))] | @tsv' <<<"$state")
+while IFS=$'\t' read -r id name; do
+  [[ -n $id ]] && items+=("Send files to $name::$id" "Send clipboard to $name::$id")
+done < <(archdrop peers --json --scan 3 | jq -r '.[] | [.id, .name] | @tsv')
+
+choice=$(printf '%s\n' "${items[@]%%::*}" | pick "Archdrop") || exit 0
+for item in "${items[@]}"; do
+  [[ ${item%%::*} == "$choice" ]] || continue
+  id=${item##*::}
+  case $choice in
+    "Start receiving") exec archdrop on ;;
+    "Stop receiving")  exec archdrop off ;;
+    Accept*)           exec archdrop accept "$id" ;;
+    Decline*)          exec archdrop reject "$id" ;;
+    "Send files"*)     exec archdrop send --pick --notify --to "$id" ;;
+    "Send clipboard"*) exec archdrop send --clipboard --notify --to "$id" ;;
+  esac
+done
