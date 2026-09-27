@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Send with Archdrop
-Comment=Send files to a nearby phone or Mac
+Comment=Send files to a nearby Android device
 Exec=archdrop send --notify %F
 Icon=/usr/share/pixmaps/archdrop.svg
 NoDisplay=true

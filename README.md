@@ -23,8 +23,7 @@ island.
 * Discovery uses mDNS only, no Bluetooth. On a phone that also looks for
   receivers over Bluetooth this can matter; see
   [Troubleshooting](#troubleshooting).
-* AirDrop is not supported. It needs AWDL, an Apple-specific Wi-Fi mode that
-  ordinary Linux hardware and drivers cannot speak.
+* Android only. iPhones and iPads are not supported.
 
 ## Install
 
@@ -171,4 +170,4 @@ Layout: `src/archdrop/` (`pb.py` protobuf codec, `messages.py` schemas,
 ## Not done
 
 Bluetooth wake-up and Bluetooth/Wi-Fi Direct transports, contacts-only
-visibility, sending folders, AirDrop (see "Read this first").
+visibility, sending folders.
